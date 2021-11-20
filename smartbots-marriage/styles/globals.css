@@ -4,6 +4,18 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  background-color: #f8f8f8;
+}
+
+html {
+  height: 100%;
+  /* border: 2px dotted red; */
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  /* border: 2px dashed blue; */
 }
 
 a {
@@ -13,4 +25,12 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+html,
+body,
+body > div:first-child,
+div#__next,
+div#__next > div {
+  height: 100%;
 }
