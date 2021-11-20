@@ -6,7 +6,6 @@ import styles from "../styles/Home.module.css";
 
 // Images
 import Image from "next/image";
-import GovernmentSeal from "../public/DefaultImages/Code-of-Arms-colour.png";
 import IDPicture from "../public/DefaultImages/unnamed.png";
 import WeddingPicture from "../public/DefaultImages/married-couple-clipart-marriage-clipart-11564134264gpjynvso8v.png";
 import BabyPicture from "../public/DefaultImages/images.png";
@@ -15,18 +14,22 @@ import DeathPicture from "../public/DefaultImages/61-613144_death-clipart-grave-
 const departmentCNR = () => {
   const buttons = [
     {
-      link: "IDPicture",
+      link: "",
       text: "Apply for Omang/ID",
       image: IDPicture,
     },
     { link: "", text: "Register of Birth", image: BabyPicture },
     { link: "", text: "Register Death", image: DeathPicture },
     {
-      link: "IDPicture",
+      link: "",
       text: "Change of Name",
       image: IDPicture,
     },
-    { link: "", text: "Marriage Registration", image: WeddingPicture },
+    {
+      link: "/informationMarriage",
+      text: "Marriage Registration",
+      image: WeddingPicture,
+    },
     {
       link: "",
       text: "Marriage Person Property Regime",
