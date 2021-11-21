@@ -93,17 +93,11 @@ const marriageRegistrationStepTwo = () => {
       if (person.omang === personIDInput) {
         // console.log(user.text);
         //Check if the person is married and warns is they are
-        if (person.maritalStatus === "Married") {
-          alert(person.name + " is already married");
-        }
-        
-        else{
             setCurrentPerson((prevState) => ({
               ...prevState,
               person,
             }));
             checkParty(person, user, gender)
-        }
       }
       else {
         setI(true)
@@ -137,6 +131,9 @@ const marriageRegistrationStepTwo = () => {
     if (person.gender !== gender) {
       alert(person.name + " is not the right gender for this field");
     }
+    else if (person.maritalStatus === "Married") {
+          alert(person.name + " is already married");
+        }
     else{
     //Checks if wife is being entered, so dropdown shows
     if (user == "wife") {
@@ -224,12 +221,27 @@ const marriageRegistrationStepTwo = () => {
     },
   ];
 
+// changes to last step of registration in user/involved party inputs are full
   const paymentTabVisible = () => {
-    setPaymentsVisible(true);
+    if (witnessTwo !== null && witnessOne !== null && wife !== null && husband !== null){
+      setPaymentsVisible(true);
+    }
+    else {
+      alert('Progress Saved')
+    }
+    
   };
   const finishRegistrationFnc = () => {
     setFinishRegistration(true);
   };
+
+// Alert after post banns button pressed
+  const finish = () => {
+alert('Banns Posted')
+  }
+
+
+
 
   return (
     <main className={styles.main}>
@@ -375,7 +387,7 @@ const marriageRegistrationStepTwo = () => {
             <>
               <button
                 className={styles.saveProgress}
-                onClick={paymentTabVisible}
+                onClick={finish}
               >
                 Post Marriage Notice
               </button>

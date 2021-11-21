@@ -2,7 +2,7 @@ This is a project subimitted for the Skillsranker's Marriage Hackathon by Scrum 
 
 ## Getting Started
 
-First, install nextjs, react and react-dom
+First, Open a terminal and install nextjs, react and react-dom
 
 
 ```bash
@@ -11,14 +11,21 @@ npm install next react react-dom
 yarn add next react react-dom
 ```
 
-Second, run the development server:
+Second, open directory smartbots-marriage
 
+```bash
+cd smartbots-marriage
+```
+
+
+Third, run the development server:
 
 ```bash
 npm run dev
 # or
 yarn dev
 ```
+
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
