@@ -18,10 +18,11 @@ const marriageRegistrationStepTwo = () => {
   const [activateCheckOut, setActivateCheckOut] = useState(false);
   const [searchResultsVisible, setSearchResultsVisible] = useState(false);
   //State for dropdown search
+  const [currentPerson, setCurrentPerson] = useState(null);
   const [wife, setWife] = useState(null);
-  const [husband, setHusband] = useState({});
-  const [witnessOne, setWitnessOne] = useState({});
-  const [witnessTwo, setWitnessTwo] = useState({});
+  const [husband, setHusband] = useState(null);
+  const [witnessOne, setWitnessOne] = useState(null);
+  const [witnessTwo, setWitnessTwo] = useState(null);
   // Fake Database
   let people = [
     {
@@ -73,6 +74,7 @@ const marriageRegistrationStepTwo = () => {
   ];
 
   const searchCouple = (personIDInput, user) => {
+    setCurrentPerson(null)
     //loop through all database/peopleObject
     people.map((person) => {
       //Search for Omang in peopleObject
@@ -81,17 +83,28 @@ const marriageRegistrationStepTwo = () => {
         //Check if the person is married and warns is they are
         if (person.maritalStatus === "Married") {
           alert(person.name + "is already married");
-        } else if (user.text == "Wife") {
+          
+        }
+        //Checks if wife is being entered, so dropdown shows 
+        else if (user.text == "Wife") {
+          setCurrentPerson(wife)
           console.log(user.text);
           setWife((prevState) => ({
             ...prevState,
             person,
           }));
           console.log(wife);
-        } else if (user.text === "Husband") {
-          setHusband(person);
+        }
+        //Checks if husband is being entered, so dropdown shows
+        else if (user.text === "Husband") {
+          setCurrentPerson(husband)
+          setHusband((prevState) => ({
+            ...prevState,
+            person,
+          }));
         }
       }
+      
     });
   };
 
@@ -174,7 +187,7 @@ const marriageRegistrationStepTwo = () => {
                           }
                         }}
                       />
-                      {
+                      {currentPerson == null && (
                         <>
                           <div>
                             <p></p>
@@ -186,7 +199,7 @@ const marriageRegistrationStepTwo = () => {
                               align="center"
                             />
                           </div>
-                        </>
+                        </>)
                       }
 
                       <br></br>
