@@ -100,3 +100,7 @@
 .labelHeading {
   box-sizing: border-box;
 }
+
+.paymentButton:hover{
+  border: 2px solid blue;
+}

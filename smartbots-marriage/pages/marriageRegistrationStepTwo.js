@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 // Images
 import Image from "next/image";
@@ -13,16 +13,20 @@ import styles from "../styles/Home.module.css";
 import stylesMarriage from "../styles/MarriageTwo.module.css";
 
 const marriageRegistrationStepTwo = () => {
-  const [paymentsVisible, setPaymentsVisible] = useState(false);
   const [finishRegistration, setFinishRegistration] = useState(false);
+  const [paymentsVisible, setPaymentsVisible] = useState(false);
   const [activateCheckOut, setActivateCheckOut] = useState(false);
   const [searchResultsVisible, setSearchResultsVisible] = useState(false);
   //State for dropdown search
   const [currentPerson, setCurrentPerson] = useState(null);
   const [wife, setWife] = useState(null);
+  const [wifeDropDownVisible, setWifeDropDownVisible] = useState(false);
   const [husband, setHusband] = useState(null);
+  const [husbandDropDownVisible, setHusbandDropDownVisible] = useState(false);
   const [witnessOne, setWitnessOne] = useState(null);
+  const [witnessOneDropDownVisible, setWitnessOneDropDownVisible] = useState(false);
   const [witnessTwo, setWitnessTwo] = useState(null);
+  const [witnessTwoDropDownVisible, setWitnessTwoDropDownVisible] = useState(false)
   // Fake Database
   let people = [
     {
@@ -74,7 +78,7 @@ const marriageRegistrationStepTwo = () => {
   ];
 
   const searchCouple = (personIDInput, user) => {
-    setCurrentPerson(null)
+    
     //loop through all database/peopleObject
     people.map((person) => {
       //Search for Omang in peopleObject
@@ -83,30 +87,55 @@ const marriageRegistrationStepTwo = () => {
         //Check if the person is married and warns is they are
         if (person.maritalStatus === "Married") {
           alert(person.name + "is already married");
-          
         }
-        //Checks if wife is being entered, so dropdown shows 
-        else if (user.text == "Wife") {
-          setCurrentPerson(wife)
-          console.log(user.text);
-          setWife((prevState) => ({
-            ...prevState,
-            person,
-          }));
-          console.log(wife);
-        }
-        //Checks if husband is being entered, so dropdown shows
-        else if (user.text === "Husband") {
-          setCurrentPerson(husband)
-          setHusband((prevState) => ({
-            ...prevState,
-            person,
-          }));
+        else{
+            setCurrentPerson((prevState) => ({
+              ...prevState,
+              person,
+            }));
+            checkParty(person, user)
         }
       }
-      
     });
   };
+
+   //Checks if wife is being entered, so dropdown shows
+   const checkParty = (person, user) => {
+    if (user == "wife") {
+      console.log(user.text);
+      setWife((prevState) => ({
+        ...prevState,
+        person,
+      }));
+      setWifeDropDownVisible(true)
+    }
+    //Checks if husband is being entered, so dropdown shows
+    else if (user === "husband") {
+      setHusband((prevState) => ({
+        ...prevState,
+        person,
+      }));
+      setHusbandDropDownVisible(true)
+    }
+    //Checks if Witness One is being entered, so dropdown shows
+    else if (user === "witnessOne") {
+      setWitnessOne((prevState) => ({
+        ...prevState,
+        person,
+      }));
+      setWitnessOneDropDownVisible(true)
+    }
+    //Checks if Witness Two is being entered, so dropdown shows
+    else if (user === "witnessTwo") {
+      setWitnessTwo((prevState) => ({
+        ...prevState,
+        person,
+      }));
+      setWitnessTwoDropDownVisible(true)
+    }
+
+   } 
+   
 
   // const searchWitness = (personIDInput, user) => {
   //   const person = people.find((person) => {
@@ -172,23 +201,69 @@ const marriageRegistrationStepTwo = () => {
           {!paymentsVisible && (
             <>
               <h3 align="center">Involved Parties</h3>
-              {
-                // Loop for labels on Form
-                leftPanelLabels.map((label) => {
-                  return (
-                    <>
-                      <h5>{label.text}</h5>
+  {/* Wife */}
+  
+                      <h5>Wife</h5>
                       <input
                         className={stylesMarriage.search}
                         placeholder="Search ID/Omang Number"
                         onKeyPress={(event) => {
                           if (event.key === "Enter") {
-                            searchCouple(event.target.value, label);
+                            searchCouple(event.target.value, 'wife');
                           }
                         }}
                       />
-                      {currentPerson == null && (
-                        <>
+
+                          {(wife !== null && wifeDropDownVisible) && (<>
+                            <div>
+                            <p></p>
+                            <Image
+                              src={PersonFive}
+                              alt="Logo Government seal"
+                              height={100}
+                              width={100}
+                              align="center"
+                            />
+                            </div>
+                          </>)}
+                      <br></br>   
+{/* Husband */}
+
+                      <h5>Husband</h5>
+                      <input
+                        className={stylesMarriage.search}
+                        placeholder="Search ID/Omang Number"
+                        onKeyPress={(event) => {
+                          if (event.key === "Enter") {
+                            searchCouple(event.target.value, 'husband');
+                          }
+                        }}
+                      />
+                      {(husband !== null && wifeDropDownVisible) && (<>
+                        <div>
+                            <p></p>
+                            <Image
+                              src={PersonFive}
+                              alt="Logo Government seal"
+                              height={100}
+                              width={100}
+                              align="center"
+                            />
+                          </div>
+                      </>)}
+                          
+                      <br></br> 
+{/* Witness One */}
+                      <h5>Witness One</h5>
+                      <input
+                        className={stylesMarriage.search}
+                        placeholder="Search ID/Omang Number"
+                        onKeyPress={(event) => {
+                          if (event.key === "Enter") {
+                            searchCouple(event.target.value, 'witnessOne');
+                          }
+                        }}
+                      />
                           <div>
                             <p></p>
                             <Image
@@ -199,15 +274,30 @@ const marriageRegistrationStepTwo = () => {
                               align="center"
                             />
                           </div>
-                        </>)
-                      }
+                      <br></br> 
+{/* Witness Two */}
+                      <h5>Witness Two</h5>
+                      <input
+                        className={stylesMarriage.search}
+                        placeholder="Search ID/Omang Number"
+                        onKeyPress={(event) => {
+                          if (event.key === "Enter") {
+                            searchCouple(event.target.value, 'witnessTwo');
+                          }
+                        }}
+                      />
+                          <div>
+                            <p></p>
+                            <Image
+                              src={PersonFive}
+                              alt="Logo Government seal"
+                              height={100}
+                              width={100}
+                              align="center"
+                            />
+                          </div>
+                      <br></br>                       
 
-                      <br></br>
-                    </>
-                  );
-                })
-              }
-              <br></br>
               <button
                 className={styles.saveProgress}
                 onClick={paymentTabVisible}
@@ -220,12 +310,13 @@ const marriageRegistrationStepTwo = () => {
           {paymentsVisible && (
             <>
               <Image
-                src={wife.I}
+                src={PaymentImage}
                 alt="Payment Image"
                 height={300}
                 width={300}
                 align="center"
                 onClick={finishRegistrationFnc}
+                className={styles.paymentButton}
               />
               <br></br>
             </>
