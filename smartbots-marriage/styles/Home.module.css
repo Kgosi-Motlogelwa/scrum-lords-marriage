@@ -96,3 +96,7 @@
     flex-direction: column;
   }
 }
+
+.labelHeading {
+  box-sizing: border-box;
+}

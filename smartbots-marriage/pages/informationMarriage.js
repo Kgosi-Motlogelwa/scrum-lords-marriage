@@ -8,7 +8,7 @@ import Image from "next/image";
 import YouTubeImage from "../public/DefaultImages/modern-red-video-media-player-template_1017-23409.jpg";
 
 const informationMarriage = () => {
-  const [columns, setColumns] = useState();
+  const [columns, setColumns] = useState(false);
 
   const buttons = [
     {
@@ -35,7 +35,7 @@ const informationMarriage = () => {
               or Skip if you want
             </p>
             <Link href="/marriageRegistrationStepOne">
-              <a href="" className={styles.skipButton}>
+              <a href="/" className={styles.skipButton}>
                 Skip
               </a>
             </Link>
@@ -45,8 +45,8 @@ const informationMarriage = () => {
             <div className={`${styles.grid} ${styles.videos}`}>
               {buttons.map((button) => {
                 return (
-                  <Link href={button.link}>
-                    <a href="" className={styles.card}>
+                  <Link href={button.link} key={button.link}>
+                    <a href="/" className={styles.card}>
                       <div>
                         <Image
                           src={YouTubeImage}

@@ -76,7 +76,7 @@
 }
 .center {
   width: 10%;
-  border: 20px solid white;
+  border: 20px solid transparent;
 }
 
 @media (max-width: 600px) {
@@ -84,11 +84,28 @@
     width: 100%;
     flex-direction: column;
   }
+  .column {
+    float: none;
+  }
+  .center {
+    width: 0;
+    border: 20px solid transparent;
+  }
+  .left,
+  .right {
+    width: 100%;
+  }
+  .row {
+    margin-top: 200px;
+  }
 }
 
 .skipButton {
   color: blue;
   font-size: 40px;
+}
+.skipButton:hover {
+  color: black;
 }
 
 .videos {

@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
+        <title>OneGov</title>
         <meta name="OneGov" content="OneGove Marriage Registration" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -32,7 +32,7 @@ export default function Home() {
           {buttons.map((button) => {
             return (
               <Link href={button.link}>
-                <a href="" className={styles.card}>
+                <a href="/" className={styles.card}>
                   <div>
                     <Image src={GovernmentSeal} alt="Logo Government seal" />
                     <h5 align="center">{button.text}</h5>
