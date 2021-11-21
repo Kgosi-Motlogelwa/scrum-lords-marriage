@@ -27,12 +27,16 @@ const marriageRegistrationStepTwo = () => {
   const [witnessOneDropDownVisible, setWitnessOneDropDownVisible] = useState(false);
   const [witnessTwo, setWitnessTwo] = useState(null);
   const [witnessTwoDropDownVisible, setWitnessTwoDropDownVisible] = useState(false)
+  // Break out of Username not found loop
+  const [i, setI] = useState(false)
+
   // Fake Database
   let people = [
     {
       imageLink: "/marriageRegistrationStepTwo",
       omang: "000000001",
       maritalStatus: "Spinster",
+      gender: "female",
       image: PersonOne,
       noticeMarriage: false,
       name: "Thandi Mazonde",
@@ -42,6 +46,7 @@ const marriageRegistrationStepTwo = () => {
       liimageLinknk: "/marriageRegistrationStepTwo",
       omang: "000000002",
       maritalStatus: "Bachelor",
+      gender: "male",
       image: PersonTwo,
       noticeMarriage: false,
       name: "Jabu Pule",
@@ -51,6 +56,7 @@ const marriageRegistrationStepTwo = () => {
       imageLink: "/marriageRegistrationStepTwo",
       omang: "000000003",
       maritalStatus: "Divorcee",
+      gender: "female",
       image: PersonThree,
       noticeMarriage: false,
       name: "Gracious Madlozi",
@@ -60,6 +66,7 @@ const marriageRegistrationStepTwo = () => {
       imageLink: "/marriageRegistrationStepTwo",
       omang: "000000004",
       maritalStatus: "Married",
+      gender: "male",
       image: PersonFour,
       noticeMarriage: false,
       name: "Zipho Mthembu",
@@ -70,6 +77,7 @@ const marriageRegistrationStepTwo = () => {
       text: "Second Witness",
       omang: "000000005",
       maritalStatus: "Spinster",
+      gender: "female",
       image: PersonFive,
       noticeMarriage: true,
       name: "Beatrice Mazonde",
@@ -77,8 +85,8 @@ const marriageRegistrationStepTwo = () => {
     },
   ];
 
-  const searchCouple = (personIDInput, user) => {
-    
+
+  const searchCouple = (personIDInput, user, gender) => {
     //loop through all database/peopleObject
     people.map((person) => {
       //Search for Omang in peopleObject
@@ -86,21 +94,51 @@ const marriageRegistrationStepTwo = () => {
         // console.log(user.text);
         //Check if the person is married and warns is they are
         if (person.maritalStatus === "Married") {
-          alert(person.name + "is already married");
+          alert(person.name + " is already married");
         }
+        
         else{
             setCurrentPerson((prevState) => ({
               ...prevState,
               person,
             }));
-            checkParty(person, user)
+            checkParty(person, user, gender)
         }
       }
+      else {
+        setI(true)
+        return;
+      }
     });
+    
   };
 
-   //Checks if wife is being entered, so dropdown shows
-   const checkParty = (person, user) => {
+  
+   const checkParty = (person, user, gender) => {
+    //Checks if Witness One is being entered, so dropdown shows
+    if (user === "witnessOne") {
+      setWitnessOne((prevState) => ({
+        ...prevState,
+        person,
+      }));
+      setWitnessOneDropDownVisible(true)
+      return;
+    }
+    //Checks if Witness Two is being entered, so dropdown shows
+    if (user === "witnessTwo") {
+      setWitnessTwo((prevState) => ({
+        ...prevState,
+        person,
+      }));
+      setWitnessTwoDropDownVisible(true)
+      return;
+    }
+
+    if (person.gender !== gender) {
+      alert(person.name + " is not the right gender for this field");
+    }
+    else{
+    //Checks if wife is being entered, so dropdown shows
     if (user == "wife") {
       console.log(user.text);
       setWife((prevState) => ({
@@ -108,17 +146,23 @@ const marriageRegistrationStepTwo = () => {
         person,
       }));
       setWifeDropDownVisible(true)
+      return;
     }
     //Checks if husband is being entered, so dropdown shows
-    else if (user === "husband") {
+     if (user === "husband") {
       setHusband((prevState) => ({
         ...prevState,
         person,
       }));
       setHusbandDropDownVisible(true)
+      return;
     }
+    }
+    
+    
+     
     //Checks if Witness One is being entered, so dropdown shows
-    else if (user === "witnessOne") {
+    if (user === "witnessOne") {
       setWitnessOne((prevState) => ({
         ...prevState,
         person,
@@ -126,7 +170,7 @@ const marriageRegistrationStepTwo = () => {
       setWitnessOneDropDownVisible(true)
     }
     //Checks if Witness Two is being entered, so dropdown shows
-    else if (user === "witnessTwo") {
+    if (user === "witnessTwo") {
       setWitnessTwo((prevState) => ({
         ...prevState,
         person,
@@ -209,16 +253,17 @@ const marriageRegistrationStepTwo = () => {
                         placeholder="Search ID/Omang Number"
                         onKeyPress={(event) => {
                           if (event.key === "Enter") {
-                            searchCouple(event.target.value, 'wife');
+                            searchCouple(event.target.value, 'wife' , 'female');
                           }
                         }}
                       />
 
                           {(wife !== null && wifeDropDownVisible) && (<>
+                          {console.log(wife)}
                             <div>
-                            <p></p>
+                            <p>{wife.person.name}, {wife.person.maritalStatus} </p>
                             <Image
-                              src={PersonFive}
+                              src={wife.person.image}
                               alt="Logo Government seal"
                               height={100}
                               width={100}
@@ -235,15 +280,15 @@ const marriageRegistrationStepTwo = () => {
                         placeholder="Search ID/Omang Number"
                         onKeyPress={(event) => {
                           if (event.key === "Enter") {
-                            searchCouple(event.target.value, 'husband');
+                            searchCouple(event.target.value, 'husband' , 'male');
                           }
                         }}
                       />
-                      {(husband !== null && wifeDropDownVisible) && (<>
+                      {(husband !== null && husbandDropDownVisible) && (<>
                         <div>
-                            <p></p>
+                            <p>{husband.person.name}, {husband.person.maritalStatus}</p>
                             <Image
-                              src={PersonFive}
+                              src={husband.person.image}
                               alt="Logo Government seal"
                               height={100}
                               width={100}
@@ -264,16 +309,19 @@ const marriageRegistrationStepTwo = () => {
                           }
                         }}
                       />
-                          <div>
-                            <p></p>
+                      {(witnessOne !== null && witnessOneDropDownVisible) && (<>
+                        <div>
+                            <p>{witnessOne.person.name}, {witnessOne.person.maritalStatus}</p>
                             <Image
-                              src={PersonFive}
+                              src={witnessOne.person.image}
                               alt="Logo Government seal"
                               height={100}
                               width={100}
                               align="center"
                             />
                           </div>
+                      </>)}
+                          
                       <br></br> 
 {/* Witness Two */}
                       <h5>Witness Two</h5>
@@ -286,18 +334,20 @@ const marriageRegistrationStepTwo = () => {
                           }
                         }}
                       />
-                          <div>
-                            <p></p>
+                      {(witnessTwo !== null && witnessTwoDropDownVisible) && (<>
+                        <div>
+                            <p>{witnessTwo.person.name}, {witnessTwo.person.maritalStatus}</p>
                             <Image
-                              src={PersonFive}
+                              src={witnessTwo.person.image}
                               alt="Logo Government seal"
                               height={100}
                               width={100}
                               align="center"
                             />
                           </div>
+                      </>)}
                       <br></br>                       
-
+                      <br></br> 
               <button
                 className={styles.saveProgress}
                 onClick={paymentTabVisible}
